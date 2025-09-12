@@ -49,6 +49,7 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
+    @DeleteMapping("/{id}")
     //funcao de deletar
     public ResponseEntity<?> deletarPedido(@PathVariable Integer id) {
         // 1. Verifico se o cliente existe
@@ -63,5 +64,20 @@ public class PedidoController {
         // 3. Se existir, retorno ok
         return ResponseEntity.ok(pedido);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarPedido(
+            @PathVariable Integer id, @RequestBody Pedido pedidoNovo) {
+        //1 tento atualizar o pedido
+        Pedido pedido = pedidoService.atualizarPedido(id, pedidoNovo);
+        //2 se nao achar o pedido, mostro o erro
+        if (pedido == null) {
+            return ResponseEntity.status(404)
+                    .body("pedido nao encontrado");
+        }
+        // 3 se achar retorno ok
+        return ResponseEntity.ok(pedido);
+    }
+
 
 }

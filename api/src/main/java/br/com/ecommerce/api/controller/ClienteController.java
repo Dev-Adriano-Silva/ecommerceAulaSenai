@@ -2,6 +2,8 @@ package br.com.ecommerce.api.controller;
 
 import br.com.ecommerce.api.model.Cliente;
 import br.com.ecommerce.api.service.ClienteService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.Table;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
-public class CLienteController {
+@Tag(name = "Clientes", description = "Metodos de clientes")
+public class ClienteController {
     private final ClienteService clienteService;
 
-    public CLienteController(ClienteService Service) {
+    public ClienteController(ClienteService Service) {
         this.clienteService = Service;
     }
 
@@ -68,14 +71,14 @@ public class CLienteController {
     public ResponseEntity<?> atualizarCliente(
             @PathVariable Integer id, @RequestBody Cliente clienteNovo) {
         //1 tento atualizar o cliente
-        Cliente cLiente = clienteService.atualizarCliente(id, clienteNovo);
+        Cliente cliente = clienteService.atualizarCliente(id, clienteNovo);
         //2 se nao achar o cliente, mostro o erro
-        if (cLiente == null) {
+        if (cliente == null) {
             return ResponseEntity.status(404)
                     .body("cliente nao encontrado");
         }
         // 3 se achar retorno ok
-        return ResponseEntity.ok(cLiente);
+        return ResponseEntity.ok(cliente);
     }
 
 
